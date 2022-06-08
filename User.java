@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class User {
     String userName;
     int userID;
-    ArrayList<Relationship> friends = new ArrayList<>();
+    ArrayList<Relationship> friends = new ArrayList<>(); 
 
     @Override
     public String toString() {
@@ -11,7 +11,8 @@ public class User {
     }
     
     public User(String userName, int userID){
-        
+        this.userName = userName;
+        this.userID = userID;
     }
 
     public Relationship[] getFriends(){
@@ -20,6 +21,7 @@ public class User {
 
     public Relationship addFriend(User friend, double friendshipValue){
     
+        return null;
     }
 
     public void addFriend(Relationship relationship){

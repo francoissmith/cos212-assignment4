@@ -2,33 +2,54 @@ import java.util.ArrayList;
 
 public class GraphDB {
     private ArrayList<User> users = new ArrayList<>();
+// *************************************************************************************************** addUser()
+    public User addUser(String userName, int ID) {
+        for (User user : users) {
+            if (user.userID == ID) {
+                return user;
+            }
+        }
 
-    public User addUser(String userName, int ID){
-        
-    }
+        User newUser = new User(userName, ID);
+        users.add(newUser);
 
-    public User getUser(int userID){
-        
+        return newUser;
     }
+// *************************************************************************************************** getUser() : ID
+    public User getUser(int userID) {
+        for (User user : users) {
+            if (user.userID == userID) {
+                return user;
+            }
+        }
+        return null;
+    }
+// *************************************************************************************************** getUser() : String
+    public User getUser(String userName) {
+        for (User user : users) {
+            if (user.userName.equals(userName)) {
+                return user;
+            }
+        }
 
-    public User getUser(String userName){
-        
+        return null;
     }
-
-    public Relationship addFriendship(int frienteeID, int friendedID, double relationshipValue){
-        
+// ***************************************************************************************************
+    public Relationship addFriendship(int frienteeID, int friendedID, double relationshipValue) {
+        return null;
     }
-
-    public User[][] clusterUsers(){
-        
+// ***************************************************************************************************
+    public User[][] clusterUsers() {
+        return null;
     }
-
-    public Relationship[] minSpanningTree(){
-        
+// ***************************************************************************************************
+    public Relationship[] minSpanningTree() {
+        return null;
     }
-
-    public User[] getUsersAtDistance(User fromUser, int distance){
-        
+// ***************************************************************************************************
+    public User[] getUsersAtDistance(User fromUser, int distance) {
+        return null;
     }
+// ***************************************************************************************************
 
 }
