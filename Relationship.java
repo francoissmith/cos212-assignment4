@@ -10,13 +10,13 @@ public class Relationship {
         else
             return friendB.toString() + "-(" + friendshipValue + ")->" + friendA.toString();
     } 
-
+// *************************************************************************************************** Relationship() : constructor
     public Relationship(User friendA, User friendB, double friendshipValue){
         this.friendA = friendA;
         this.friendB = friendB;
         this.friendshipValue = friendshipValue;
     }
-
+// *************************************************************************************************** equals() : boolean
     public boolean equals(Relationship relationship){
         if(relationship == null)
             return false;

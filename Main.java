@@ -29,26 +29,29 @@ public class Main {
             graphDB.addFriendship(getUserId(tuple.t, graphDB), getUserId(tuple.u, graphDB), tuple.s);
         }
 
-        Object[] result = sort(graphDB.minSpanningTree());
-        for(Object relationship: result){
-            System.out.println((Relationship)relationship);
-        }
+        // Object[] result = sort(graphDB.minSpanningTree());
+        // for(Object relationship: result){
+        //     System.out.println((Relationship)relationship);
+        // }
 
-        User[][] res = graphDB.clusterUsers();
-        for(int i=0; i < res.length; i++){
-            String temp = "";
-            for(int j=0; j < res[i].length; j++){
-                temp += res[i][j].toString() + ";";
-            }
-            System.out.println(temp);
-        }
+        // User[][] res = graphDB.clusterUsers();
+        // for(int i=0; i < res.length; i++){
+        //     String temp = "";
+        //     for(int j=0; j < res[i].length; j++){
+        //         temp += res[i][j].toString() + ";";
+        //     }
+        //     System.out.println(temp);
+        // }
 
-        Object[] userArr = sort(graphDB.getUsersAtDistance(graphDB.getUser("A"), 2));
-        for(Object user: userArr){
-            System.out.println((User)user);
-        }
+        // Object[] userArr = sort(graphDB.getUsersAtDistance(graphDB.getUser("A"), 2));
+        // for(Object user: userArr){
+        //     System.out.println((User)user);
+        // }
 
-        coloring();
+        // coloring();
+
+        printGraph(graphDB);
+        
     }
 
     public static int getUserId(String userName, GraphDB graphDB){
@@ -77,27 +80,39 @@ public class Main {
         }    
     }
 
-    private static <T> Object[] sort(T[] sort){
-        ArrayList<T> result = new ArrayList<>();
-        for(T relationship: sort){
-            result.add(relationship);
-        }
+    // private static <T> Object[] sort(T[] sort){
+    //     ArrayList<T> result = new ArrayList<>();
+    //     for(T relationship: sort){
+    //         result.add(relationship);
+    //     }
 
-        ArrayList<T> temp = new ArrayList<>();
-        while(!result.isEmpty()){
-            int maxVal = Integer.MIN_VALUE;
-            T maxRelationship = result.get(0);
-            for(T relationship: result){
-                if(relationship.toString().hashCode() > maxVal){
-                    maxVal = relationship.toString().hashCode();
-                    maxRelationship = relationship;
-                }
+    //     ArrayList<T> temp = new ArrayList<>();
+    //     while(!result.isEmpty()){
+    //         int maxVal = Integer.MIN_VALUE;
+    //         T maxRelationship = result.get(0);
+    //         for(T relationship: result){
+    //             if(relationship.toString().hashCode() > maxVal){
+    //                 maxVal = relationship.toString().hashCode();
+    //                 maxRelationship = relationship;
+    //             }
+    //         }
+    //         temp.add(maxRelationship);
+    //         result.remove(maxRelationship);
+    //     }
+
+    //     return temp.toArray();
+    // }
+
+    private static void printGraph(GraphDB graphDB) {
+        User[] users = graphDB.getAllUsers();
+
+        for (User user : users) {
+            System.out.print(user.toString()+": ");
+            for (Relationship relationship : user.getFriends()) {
+                System.out.print(relationship.friendA.toString()+"-("+relationship.friendshipValue+")->"+relationship.friendB.toString()+"  ");
             }
-            temp.add(maxRelationship);
-            result.remove(maxRelationship);
+            System.out.println();
         }
-
-        return temp.toArray();
     }
 }
 

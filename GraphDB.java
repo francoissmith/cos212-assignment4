@@ -34,22 +34,43 @@ public class GraphDB {
 
         return null;
     }
-// ***************************************************************************************************
+// *************************************************************************************************** addFriendship()
     public Relationship addFriendship(int frienteeID, int friendedID, double relationshipValue) {
+        User userA, userB;
+        userA = userB = null;
+
+        for (User user : users) {
+            if (user.userID == frienteeID) {
+                userA = user;
+            }
+
+            if (user.userID == friendedID) {
+                userB = user;
+            }
+        }
+
+        if (userA != null && userB != null) {
+            Relationship newFriendship = userA.addFriend(userB, relationshipValue);
+
+            return newFriendship;
+        }
         return null;
     }
-// ***************************************************************************************************
+// *************************************************************************************************** clusterUsers()
     public User[][] clusterUsers() {
         return null;
     }
-// ***************************************************************************************************
+// *************************************************************************************************** minSpanningTree()
     public Relationship[] minSpanningTree() {
         return null;
     }
-// ***************************************************************************************************
+// *************************************************************************************************** getUsersAtDistance()
     public User[] getUsersAtDistance(User fromUser, int distance) {
         return null;
     }
 // ***************************************************************************************************
 
+    public User[] getAllUsers() {
+        return users.toArray(new User[0]);
+    }
 }
