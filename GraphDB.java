@@ -68,15 +68,6 @@ public class GraphDB {
             user.uncoloredDeg = user.getDegree();
         }
 
-
-        System.out.println("----- debug -----");
-        System.out.println("| uncolored array:");
-        System.out.print("| ");
-        for (User user : uncolored) {
-            System.out.print(user.userName+"("+user.saturationDeg+","+user.uncoloredDeg+") ");
-        }
-        System.out.println();
-        System.out.println("|");
         while (uncolored.size() > 0) {
             ArrayList<User> uncoloredFriends = new ArrayList<>();
             v = processNext(uncolored);
@@ -92,19 +83,7 @@ public class GraphDB {
 
             v.color = j;
             uncolored.remove(v);
-
-            System.out.println("| Processed: " + v.toString() + " (" + v.saturationDeg+","+v.uncoloredDeg+","+v.color+") friends: "+v.getFriends().length);
-
-            System.out.println("| uncolored array:");
-            System.out.print("| ");
-            for (User user : uncolored) {
-                System.out.print(user.userName+"("+user.saturationDeg+","+user.uncoloredDeg+") ");
-            }
-            System.out.println();
-            System.out.println("|");
         }
-
-        System.out.println("----- debug -----");
 
         ArrayList<Integer> listColors = new ArrayList<>();
         listColors = getAllColors(listColors);
@@ -125,11 +104,53 @@ public class GraphDB {
     }
 // *************************************************************************************************** minSpanningTree()
     public Relationship[] minSpanningTree() {
-        return null;
+        ArrayList<Relationship> tree = new ArrayList<>();
+        ArrayList<Relationship> edges = new ArrayList<>();
+
+        tree.clear(); 
+        for (User user : users) {
+            for (Relationship relationship : user.friends) {
+                edges.add(relationship);
+
+            }
+        }
+
+        for (int i = 0; i < edges.size(); i++) {
+            tree.add(edges.get(i));
+            Relationship cycle = unionCycle(tree);
+            if (cycle != null) {
+                tree.remove(cycle);
+            }
+        }
+
+        return tree.toArray(new Relationship[0]);
     }
 // *************************************************************************************************** getUsersAtDistance()
     public User[] getUsersAtDistance(User fromUser, int distance) {
-        return null;
+        ArrayList<User> usersAtDistance = new ArrayList<>();
+        if (distance == 1) {
+            for (Relationship friend : fromUser.getFriends()) {
+                usersAtDistance.add(friend.friendB);
+            }
+        } else if ( distance > 1){
+            ArrayList<User> dList = new ArrayList<>();
+            for (User user : users) {
+                user.distance = 0;
+                dList.add(user);
+            }
+
+            // while(dList.size() > 0) {
+            //     User curr = dList.get(0);
+
+            //     curr.distance = minEdges(fromUser, curr);
+            //     System.out.println(curr.userName +"("+ curr.distance+") ");
+            //     dList.remove(curr);
+            // }
+
+
+        }
+        
+        return usersAtDistance.toArray(new User[0]);
     }
 // *************************************************************************************************** getAllUsers()
     public User[] getAllUsers() {
@@ -178,12 +199,10 @@ public class GraphDB {
         
         for (int i = 0; i < user.getFriends().length; i++) {
             if (user.getFriends()[i].friendB.color == j) {
-                System.out.print(user.getFriends()[i].friendB.userName+"("+user.getFriends()[i].friendB.color + ") ");
                 j++;
                 i = -1;
             }
         }
-        System.out.println();
         return j;
     }
 
@@ -198,22 +217,81 @@ public class GraphDB {
     }
 
 // *************************************************************************************************** listColors()
-public ArrayList<Integer> getAllColors(ArrayList<Integer> listColors) {
-    boolean found;
-    for (User user : users) {
-        found = false;
-        for (Integer color : listColors) {
-            if (user.color == color) {
-                found = true;
+    public ArrayList<Integer> getAllColors(ArrayList<Integer> listColors) {
+        boolean found;
+        for (User user : users) {
+            found = false;
+            for (Integer color : listColors) {
+                if (user.color == color) {
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                listColors.add(user.color);
             }
         }
 
-        if (!found) {
-            listColors.add(user.color);
+        return listColors;
+}
+
+// *************************************************************************************************** unionCycle()
+    ArrayList<Integer> root = new ArrayList<>();
+    ArrayList<Integer> next = new ArrayList<>();
+    public Relationship unionCycle(ArrayList<Relationship> tree) {
+
+        for (int i = 0; i < users.size()-1; i++) {
+            root.set(i, i);
+            next.set(i, i);
+        }
+
+        for (Relationship edge : tree) {
+            union(edge);
+        }
+
+        return null;
+    }
+
+// *************************************************************************************************** unionCycle()
+    public void union(Relationship edge) {
+        if (root.get(edge.friendA.userID) == root.get(edge.friendB.userID)) {
+            return;
         }
     }
 
-    return listColors;
-}
+// *************************************************************************************************** minEdges()
+    int min;
+    int count;
+    public int minEdges(User src, User des){
+        min = Integer.MAX_VALUE;
+        count = 0;
+
+        minEdgeUtil(src, des);
+
+        return min;
+    }
+
+    public void minEdgeUtil(User src, User des) {
+        src.distance = count;
+
+        if (src.equals(des)) {
+            if (min > count) {
+                min = count;
+            }
+        } else {
+            for (Relationship friend : src.getFriends()) {
+                User temp = friend.friendB;
+
+                if (temp.distance == 0) {
+                    count++;
+                    minEdgeUtil(temp, des);
+                }
+            }
+        }
+
+        src.distance = 0;
+        count--;
+    }
+
 
 }

@@ -7,6 +7,7 @@ public class User {
     int saturationDeg;
     int uncoloredDeg;
     int color;
+    int distance;
 
     @Override
     public String toString() {
@@ -16,9 +17,10 @@ public class User {
     public User(String userName, int userID){
         this.userName = userName;
         this.userID = userID;
-        saturationDeg = 0;
-        uncoloredDeg = 0;
-        color = 0;
+        this.saturationDeg = 0;
+        this.uncoloredDeg = 0;
+        this.color = 0;
+        this.distance = 0;
     }
 // *************************************************************************************************** getFriends()
     public Relationship[] getFriends(){
