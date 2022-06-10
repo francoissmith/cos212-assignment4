@@ -4,6 +4,9 @@ public class User {
     String userName;
     int userID;
     ArrayList<Relationship> friends = new ArrayList<>(); 
+    int saturationDeg;
+    int uncoloredDeg;
+    int color;
 
     @Override
     public String toString() {
@@ -13,6 +16,9 @@ public class User {
     public User(String userName, int userID){
         this.userName = userName;
         this.userID = userID;
+        saturationDeg = 0;
+        uncoloredDeg = 0;
+        color = 0;
     }
 // *************************************************************************************************** getFriends()
     public Relationship[] getFriends(){
@@ -51,5 +57,27 @@ public class User {
         }
 
         return false;
+    }
+// *************************************************************************************************** getDegree()
+    public int getDegree() {
+        int deg = 0;
+
+        for (int i = 0; i < friends.size(); i++) {
+            deg++;
+        }
+
+        return deg;
+    }
+
+// ***************************************************************************************************
+    public ArrayList<User>getUncoloredFriends(ArrayList<User> uncoloredFriends) {
+
+        for (Relationship friend : friends) {
+            if (friend.friendB.color == 0) {
+                uncoloredFriends.add(friend.friendB);
+            }
+        }
+
+        return uncoloredFriends;
     }
 }

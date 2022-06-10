@@ -2,129 +2,80 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        StudentExample();
-        return;
-    }
+        //StudentExample();
+        User a = new User("a", 1);
+        User b = new User("b", 2);
+        User c = new User("c", 3);
+        User d = new User("d", 4);
+        User e = new User("e",5);
+        User f = new User("f", 6);
+        User g = new User("g", 7);
+        User h = new User("h", 8);
 
-    @SuppressWarnings("unchecked")
-    public static void StudentExample(){
-        GraphDB graphDB = new GraphDB();
-        String[] userNames = new String[]{"A", "B", "C", "D", "E", "F", "G"};
-        for(int i=0; i < userNames.length; i++){
-            graphDB.addUser(userNames[i], i);
-        }
+        GraphDB g1 = new GraphDB();
+        g1.addUser("a", 1);
+        g1.addUser("b", 2);
+        g1.addUser("c", 3);
+        g1.addUser("d", 4);
+        g1.addUser("e", 5);
+        g1.addUser("f", 6);
+        g1.addUser("g", 7);
+        g1.addUser("h", 8);
+        // System.out.println(a.toString());
 
-        Tuple<String, String, Integer>[] arr = new Tuple[]{new Tuple<>("F", "G", 1), 
-                                                            new Tuple<>("A", "B", 2),
-                                                            new Tuple<>("G", "C", 3),
-                                                            new Tuple<>("E", "B", 6),
-                                                            new Tuple<>("C", "F", 7),
-                                                            new Tuple<>("D", "E", 8),
-                                                            new Tuple<>("B", "F", 9),
-                                                            new Tuple<>("A", "D", 15),
-                                                            new Tuple<>("E", "F", 15),
-                                                            new Tuple<>("A", "C", 23)};
+        // System.out.println(g1.getUser("b"));
+        // System.out.println(g1.getUser(3));
 
-        for(Tuple<String, String, Integer> tuple: arr){
-            graphDB.addFriendship(getUserId(tuple.t, graphDB), getUserId(tuple.u, graphDB), tuple.s);
-        }
+        // a.addFriend(e, 10);
+        // a.addFriend(f, 10);
+        // a.addFriend(g, 10);
+        // b.addFriend(e, 11);
+        // b.addFriend(h, 11);
+        // b.addFriend(c, 11);
+        // c.addFriend(g, 12);
+        // c.addFriend(b, 12);
+        // d.addFriend(f, 13);
+        // d.addFriend(g, 13);
+        // e.addFriend(a, 14);
+        // e.addFriend(b, 14);
+        // f.addFriend(h, 15);
+        // f.addFriend(g, 15);
+        // g.addFriend(h, 16);
 
-        // Object[] result = sort(graphDB.minSpanningTree());
-        // for(Object relationship: result){
-        //     System.out.println((Relationship)relationship);
+
+
+
+        // for(int i = 0; i < a.getFriends().length; i++){
+        //     System.out.println(a.getFriends()[i]);
+        //     System.out.println(b.getFriends()[i]);
         // }
 
-        // User[][] res = graphDB.clusterUsers();
-        // for(int i=0; i < res.length; i++){
-        //     String temp = "";
-        //     for(int j=0; j < res[i].length; j++){
-        //         temp += res[i][j].toString() + ";";
-        //     }
-        //     System.out.println(temp);
+        g1.addFriendship(1, 5, 2);
+        g1.addFriendship(1, 6, 10);
+        g1.addFriendship(1, 7, 10);
+        g1.addFriendship(2, 3, 10);
+        g1.addFriendship(2, 5, 10);
+        g1.addFriendship(2, 8, 10);
+        g1.addFriendship(3, 7, 10);
+        g1.addFriendship(4, 6, 10);
+        g1.addFriendship(4, 7, 10);
+        g1.addFriendship(6, 7, 10);
+        g1.addFriendship(6, 8, 10);
+        g1.addFriendship(7, 8, 10);
+        // for(int i = 0; i < g1.getUser("a").getFriends().length; i++){
+        //     System.out.println(g1.getUser("a").getFriends()[i]);
         // }
 
-        // Object[] userArr = sort(graphDB.getUsersAtDistance(graphDB.getUser("A"), 2));
-        // for(Object user: userArr){
-        //     System.out.println((User)user);
-        // }
+        User[][] result = g1.clusterUsers();
 
-        // coloring();
-
-        printGraph(graphDB);
-        
-    }
-
-    public static int getUserId(String userName, GraphDB graphDB){
-        return graphDB.getUser(userName).userID;
-    }
-
-    public static void coloring(){
-        GraphDB graphDB = new GraphDB();
-        String[] uName = new String[]{"a", "b", "c", "d", "e", "f", "g", "h"};
-        for(int i=0; i < uName.length; i++){
-            graphDB.addUser(uName[i], i);
-        }
-
-        String[][] edges = new String[][]{{"a","e"}, {"a", "f"}, {"a", "g"}, {"b", "e"}, {"b", "c"}, {"b", "h"}, {"c", "g"}, {"d", "f"}, {"d", "g"}, {"f", "g"}, {"f", "h"}, {"g", "h"}};
-        for(String[] edge : edges){
-            graphDB.addFriendship(getUserId(edge[0], graphDB), getUserId(edge[1], graphDB), 0);
-        }
-
-        User[][] res = graphDB.clusterUsers();
-        for(int i=0; i < res.length; i++){
-            String temp = "";
-            for(int j=0; j < res[i].length; j++){
-                temp += res[i][j].toString() + ";";
-            }
-            System.out.println(temp);
-        }    
-    }
-
-    // private static <T> Object[] sort(T[] sort){
-    //     ArrayList<T> result = new ArrayList<>();
-    //     for(T relationship: sort){
-    //         result.add(relationship);
-    //     }
-
-    //     ArrayList<T> temp = new ArrayList<>();
-    //     while(!result.isEmpty()){
-    //         int maxVal = Integer.MIN_VALUE;
-    //         T maxRelationship = result.get(0);
-    //         for(T relationship: result){
-    //             if(relationship.toString().hashCode() > maxVal){
-    //                 maxVal = relationship.toString().hashCode();
-    //                 maxRelationship = relationship;
-    //             }
-    //         }
-    //         temp.add(maxRelationship);
-    //         result.remove(maxRelationship);
-    //     }
-
-    //     return temp.toArray();
-    // }
-
-    private static void printGraph(GraphDB graphDB) {
-        User[] users = graphDB.getAllUsers();
-
-        for (User user : users) {
-            System.out.print(user.toString()+": ");
-            for (Relationship relationship : user.getFriends()) {
-                System.out.print(relationship.friendA.toString()+"-("+relationship.friendshipValue+")->"+relationship.friendB.toString()+"  ");
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result[i].length; j++) {
+                System.out.print(result[i][j].color + "  ");
             }
             System.out.println();
         }
-    }
-}
 
-class Tuple<T,U,S>{
-    public T t;
-    public U u;
-    public S s;
-
-    public Tuple(T t, U u, S s){
-        this.s = s;
-        this.t = t;
-        this.u = u;
+        return;
     }
 }
 
