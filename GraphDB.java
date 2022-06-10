@@ -1,4 +1,3 @@
-import java.rmi.server.ObjID;
 import java.util.ArrayList;
 
 public class GraphDB {
@@ -69,6 +68,15 @@ public class GraphDB {
             user.uncoloredDeg = user.getDegree();
         }
 
+
+        System.out.println("----- debug -----");
+        System.out.println("| uncolored array:");
+        System.out.print("| ");
+        for (User user : uncolored) {
+            System.out.print(user.userName+"("+user.saturationDeg+","+user.uncoloredDeg+") ");
+        }
+        System.out.println();
+        System.out.println("|");
         while (uncolored.size() > 0) {
             ArrayList<User> uncoloredFriends = new ArrayList<>();
             v = processNext(uncolored);
@@ -84,7 +92,19 @@ public class GraphDB {
 
             v.color = j;
             uncolored.remove(v);
+
+            System.out.println("| Processed: " + v.toString() + " (" + v.saturationDeg+","+v.uncoloredDeg+","+v.color+") friends: "+v.getFriends().length);
+
+            System.out.println("| uncolored array:");
+            System.out.print("| ");
+            for (User user : uncolored) {
+                System.out.print(user.userName+"("+user.saturationDeg+","+user.uncoloredDeg+") ");
+            }
+            System.out.println();
+            System.out.println("|");
         }
+
+        System.out.println("----- debug -----");
 
         ArrayList<Integer> listColors = new ArrayList<>();
         listColors = getAllColors(listColors);
@@ -158,10 +178,12 @@ public class GraphDB {
         
         for (int i = 0; i < user.getFriends().length; i++) {
             if (user.getFriends()[i].friendB.color == j) {
+                System.out.print(user.getFriends()[i].friendB.userName+"("+user.getFriends()[i].friendB.color + ") ");
                 j++;
-                i = 0;
+                i = -1;
             }
         }
+        System.out.println();
         return j;
     }
 
